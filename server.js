@@ -7,6 +7,8 @@ import {router as usersRouter} from "./routes/users.js"
 
 const app = express();
 
+const port = process.env.PORT || 3000;
+
 mongoose.connect(process.env.DATABASE_LINK, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -31,6 +33,6 @@ app.use('/api/players', playersRouter)
 app.use('/api/games', gamesRouter)
 app.use('/api/users', usersRouter)
 
-app.listen("3000", () => {
-  console.log('ON 3000')
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
