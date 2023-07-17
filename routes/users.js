@@ -49,14 +49,15 @@ router.post("/", async (req, res) => {
 
 });
 
-router.patch("/:id", async (req, res) => {
-  const userId = req.params.id;
+router.patch("/:username", async (req, res) => {
+  const username = req.params.username;
   const updatedUserData = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
-    return res.status(400).json({ message: "Invalid user ID" });
+  if (!mongoose.Types.ObjectId.isValid(username)) {
+    return res.status(400).json({ message: "Invalid username" });
   }
-  const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData, {
+  const filter = { username: username }
+  const updatedUser = await User.findOneAndUpdate(filter, updatedUserData, {
     new: true,
   });
   if (!updatedUser) {
