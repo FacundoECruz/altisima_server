@@ -7,6 +7,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
+    console.log(users)
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving users", error });
@@ -42,6 +43,7 @@ router.post("/", async (req, res) => {
     console.log(user);
     return res.status(201).send();
   } catch (err) {
+    console.log(err)
     return res.status(400).json(err.message);
   }
 
