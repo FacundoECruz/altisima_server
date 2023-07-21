@@ -3,6 +3,7 @@ import Game from "../models/Game.js";
 import Player from "../models/Player.js";
 import User from "../models/User.js";
 import mongoose from "mongoose";
+import generateCardsPerRound from "../utils/generateCardsPerRound.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -37,8 +38,8 @@ router.post("/", async (req, res) => {
       }
     })
   );
-  //Esto tiene que generarse aleatoriamente y no tiene que superar un determinado nro global
-  const cardsPerRound = [6, 5, 4, 7, 9, 3, 4, 8, 10];
+
+  const cardsPerRound = generateCardsPerRound(playersDto.length)
 
   const playersImgs = await Promise.all(
     players.map(async (player) => {
