@@ -8,8 +8,9 @@ import {router as usersRouter} from "./routes/users.js"
 const app = express();
 
 const port = process.env.PORT || 3000;
+const databaseLink = process.env.DATABASE_LINK || "mongodb://localhost:27017/altisima";
 
-mongoose.connect(process.env.DATABASE_LINK, {
+mongoose.connect(databaseLink, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
