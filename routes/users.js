@@ -53,14 +53,17 @@ router.patch("/:username", async (req, res) => {
   const username = req.params.username;
   const updatedUserData = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(username)) {
-    return res.status(400).json({ message: "Invalid username" });
-  }
   const filter = { username: username }
   const updatedUser = await User.findOneAndUpdate(filter, updatedUserData, {
     new: true,
   });
+  const updatedPlayer = await Player.findOneAndUpdate(filter, updatedUserData, {
+    new: true,
+  });
   if (!updatedUser) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  if (!updatedPlayer) {
     return res.status(404).json({ message: "User not found" });
   }
 
