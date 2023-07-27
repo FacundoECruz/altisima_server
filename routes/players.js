@@ -5,7 +5,6 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const players = await Player.find();
-    console.log(players)
     res.json(players);
   } catch (error) {
     res.status(500).json({ message: "Error retrieving players", error });
