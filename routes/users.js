@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
     await user.save();
     await player.save()
     console.log(user);
-    return res.status(201).send();
+    return res.status(201).json(user);
   } catch (err) {
     console.log(err)
     return res.status(400).json(err.message);
