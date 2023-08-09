@@ -25,54 +25,22 @@ router.get("/:username", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { username, email } = req.body;
-
-  //Aca hay que usar logica de middleware
-
-  let isUsernameRepeated = null;
-  let isEmailRepeated = null;
-  let isPlayerNameRepeated = null;
-
-  User.exists({ username })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => console.log(err));
-
-  User.exists({ email })
-    .then((res) => {
-      console.log(res);
-      isEmailRepeated = true;
-    })
-    .catch((err) => console.log(err));
-
-  Player.exists({ username })
-    .then((res) => {
-      console.log(res);
-      isPlayerNameRepeated = true;
-    })
-    .catch((err) => console.log(err));
-
+  
+  const isUsernameRepeated = await User.exists({ username });
+  const isEmailRepeated = await User.exists({ email });
+  const isPlayerNameRepeated = await Player.exists({ username })
   if (isUsernameRepeated || isEmailRepeated || isPlayerNameRepeated) {
-    console.log("***isUsernameRepeated***");
-    console.log(isUsernameRepeated);
-    console.log("***isEmailRepeated***");
-    console.log(isEmailRepeated);
-    console.log("***isPlayerNameRepeated***");
-    console.log(isPlayerNameRepeated);
-    return res
-      .status(400)
-      .json("El nombre de usuario o correo electrónico ya están registrados");
+    return res.status(400).json("El nombre de usuario o correo electrónico ya están registrados");
   }
-
   const user = new User(req.body);
   const player = new Player(req.body);
   try {
     await user.save();
-    await player.save();
+    await player.save()
     console.log(user);
     return res.status(201).send();
   } catch (err) {
-    console.log(err);
+    console.log(err)
     return res.status(400).json(err.message);
   }
 });
