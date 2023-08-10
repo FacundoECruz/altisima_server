@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
     const players = await Player.find();
     res.json(players);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving players", error });
+    res.status(500).json({ message: "No se pudo recuperar los jugadores", error });
   }
 });
 
@@ -22,7 +22,7 @@ router.get("/:username", async (req, res) => {
 
     res.json(player);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving player", error });
+    res.status(500).json({ message: "Jugador no encontrado", error });
   }
 });
 
