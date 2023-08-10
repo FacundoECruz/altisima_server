@@ -51,14 +51,13 @@ router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   console.log("**Dentro de /login**")
-  console.log(username)
-  console.log(password)
-
+  
   try {
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(401).json({ message: "Usuario o contraseña invalidos" });
     }
+
     const passwordMatch = user.password === password;
     if (!passwordMatch) {
       return res.status(401).json({ message: "Usuario o contraseña invalidos" });
