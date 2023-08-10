@@ -49,6 +49,11 @@ router.post("/", validateUserData, async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
+
+  console.log("**Dentro de /login**")
+  console.log(username)
+  console.log(password)
+
   try {
     const user = await User.findOne({ username });
     if (!user) {
