@@ -34,6 +34,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", validateUserData, async (req, res) => {
+
   const user = new User(req.body);
   const player = new Player(req.body);
   try {
@@ -50,8 +51,6 @@ router.post("/", validateUserData, async (req, res) => {
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
-  console.log("**Dentro de /login**")
-  
   try {
     const user = await User.findOne({ username });
     if (!user) {
