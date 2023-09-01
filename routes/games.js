@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
     playersDto.map(async (p) => {
       try {
         const dbPlayer = await Player.findOne({ username: p.username });
-        console.log(dbPlayer)
+        console.log(dbPlayer);
         return dbPlayer;
       } catch (error) {
         console.log(error);
@@ -39,11 +39,11 @@ router.post("/", async (req, res) => {
     })
   );
 
-  const cardsPerRound = generateCardsPerRound(playersDto.length)
+  const cardsPerRound = generateCardsPerRound(playersDto.length);
 
   const playersImgs = await Promise.all(
     players.map(async (player) => {
-      const dbPlayer = await Player.findOne({username: player.username});
+      const dbPlayer = await Player.findOne({ username: player.username });
       return dbPlayer.image;
     })
   );
@@ -83,12 +83,15 @@ router.patch("/next", async (req, res) => {
   const round = game.round;
 
   const resultsForDb = roundResults.map((player, index) => {
-    if (player.bidsLost === 0)
+    if (player.bidsLost === 0) {
       player.score =
         parseInt(game.results[round - 1][index].score) + 5 + player.bid;
-    else
+      player.history.push(5 + player.bid)
+    } else {
       player.score =
-        parseInt(game.results[round - 1][index].score) - player.bidsLost;
+      parseInt(game.results[round - 1][index].score) - player.bidsLost;
+      player.history.push(-player.bidsLost)
+    }
     return player;
   });
 
@@ -96,6 +99,7 @@ router.patch("/next", async (req, res) => {
     return {
       username: player.username,
       score: player.score,
+      history: player.history,
       bid: 0,
       bidsLost: 0,
       image: player.image,
@@ -145,9 +149,9 @@ router.patch("/prev", async (req, res) => {
 router.patch("/finish", async (req, res) => {
   const game = await Game.findById(req.body.gameId);
   const { user, winner, players } = req.body;
-  
-  console.log("***players***")
-  console.log(players)
+
+  console.log("***players***");
+  console.log(players);
   try {
     //LOGICA DEL GANADOR
     const winnerFilter = { username: winner };
@@ -197,7 +201,7 @@ router.patch("/finish", async (req, res) => {
     const savedGame = await game.save();
 
     const response = {
-      savedGame: savedGame
+      savedGame: savedGame,
     };
     console.log("***Game data saved***");
     console.log(savedGame);
