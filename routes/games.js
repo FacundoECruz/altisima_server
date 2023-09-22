@@ -175,6 +175,7 @@ router.patch("/finish", async (req, res) => {
     );
     console.log("***Updated Games Played***");
     console.log(gamesPlayedUpdateResult);
+    
     //LOGICA DE SUMA DE PUNTOS
     playerIds.map(async (id, index) => {
       const scoreFilter = { _id: id };
@@ -189,6 +190,7 @@ router.patch("/finish", async (req, res) => {
       console.log("***Updated Score***");
       console.log(updatedScore);
     });
+    
     //LOGICA DEL CREADOR
     const hostFilter = { username: user };
     const hostUpdate = { $inc: { createdGames: 1 } };

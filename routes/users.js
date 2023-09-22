@@ -71,7 +71,7 @@ router.post("/login", async (req, res) => {
 router.get("/:username", async (req, res) => {
   try {
     const username = req.params.username;
-    const user = await User.find({ username: username }); //
+    const user = await User.findOne({ username: username }); //
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: "No se pudo recuperar el usuario", error });
